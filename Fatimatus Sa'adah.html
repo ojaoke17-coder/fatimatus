@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prosedur Belanja Online</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background: linear-gradient(135deg,#1d2671,#c33764);
+    font-family: Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:380px;
+    background:white;
+    border-radius:18px;
+    box-shadow:0 20px 30px rgba(0,0,0,.3);
+    overflow:hidden;
+    position:relative;
+}
+
+.header{
+    background:#4CAF50;
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.page{
+    display:none;
+    padding:25px;
+    text-align:center;
+    animation:fade .4s;
+}
+
+.page.active{display:block;}
+
+button{
+    background:#4CAF50;
+    border:none;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    margin:10px 5px;
+    font-size:14px;
+}
+
+button.red{background:#f44336;}
+button.blue{background:#2196F3;}
+
+input{
+    width:90%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    margin-top:10px;
+}
+
+.error{
+    color:red;
+    font-size:13px;
+    display:none;
+}
+
+.identity{
+    position:absolute;
+    bottom:10px;
+    right:12px;
+    font-size:11px;
+    color:#777;
+    text-align:right;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(15px);}
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">PROSEDUR BELANJA ONLINE</div>
+
+<!-- PAGE 1 -->
+<div class="page active">
+    🛒
+    <h3>Mulai Belanja</h3>
+    <p>Klik tombol untuk memesan barang</p>
+    <button onclick="next(2)">Pesan Barang</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+    📦
+    <h3>Pemesanan</h3>
+    <p>Pelanggan melakukan pemesanan secara online</p>
+    <button onclick="next(3)">Lanjut</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+    🖥️
+    <h3>Sistem Persediaan</h3>
+    <p>Pesanan diterima oleh sistem persediaan</p>
+    <button onclick="next(4)">Cek Stok</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+    ❓
+    <h3>Stok Barang</h3>
+    <p>Apakah barang tersedia?</p>
+    <button onclick="next(5)">Ya</button>
+    <button class="red" onclick="next(9)">Tidak</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+    🚚
+    <h3>Jenis Pengiriman</h3>
+    <p>Pilih jenis pengiriman</p>
+    <button class="blue" onclick="pilihAlamat('Setempat')">Setempat</button>
+    <button class="red" onclick="pilihAlamat('Luar Daerah')">Luar Daerah</button>
+</div>
+
+<!-- PAGE 6 -->
+<div class="page">
+    🏠
+    <h3>Alamat Rumah</h3>
+    <p>Masukkan alamat lengkap</p>
+
+    <input id="alamatRumah" placeholder="Contoh: Jl. Raya Bedanten, Bungah, Gresik">
+    <p id="errorAlamat" class="error">⚠️ Alamat wajib diisi</p>
+
+    <button onclick="simpanAlamat()">Simpan</button>
+</div>
+
+<!-- PAGE 7 -->
+<div class="page">
+    📍
+    <h3>Detail Pengiriman</h3>
+    <p id="detailPengiriman"></p>
+    <button onclick="next(8)">Lanjut</button>
+</div>
+
+<!-- PAGE 8 -->
+<div class="page">
+    ✅
+    <h3>Pesanan Diproses</h3>
+    <p>Pesanan akan segera dikirim<br>Estimasi 3–4 hari</p>
+    <button onclick="next(1)">Kembali ke Awal</button>
+</div>
+
+<!-- PAGE 9 -->
+<div class="page">
+    ❌
+    <h3>Stok Habis</h3>
+    <p>Barang sedang habis<br>Menunggu pemasok</p>
+    <button onclick="next(1)">Kembali ke Awal</button>
+</div>
+
+<div class="identity">
+    Fatimatus Sa'adah<br>
+    Kelas XII-1
+</div>
+
+</div>
+
+<script>
+let jenisAlamat = "";
+
+function next(n){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.querySelectorAll(".page")[n-1].classList.add("active");
+}
+
+function pilihAlamat(jenis){
+    jenisAlamat = jenis;
+    next(6);
+}
+
+function simpanAlamat(){
+    let alamat = document.getElementById("alamatRumah").value;
+    let error = document.getElementById("errorAlamat");
+
+    if(alamat.trim() === ""){
+        error.style.display = "block";
+    }else{
+        error.style.display = "none";
+        document.getElementById("detailPengiriman").innerHTML =
+        "Jenis Pengiriman: <b>" + jenisAlamat + "</b><br><br>" +
+        "Alamat Tujuan:<br>" + alamat;
+        next(7);
+    }
+}
+</script>
+
+</body>
+</html>
